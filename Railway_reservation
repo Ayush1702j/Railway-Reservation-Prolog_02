@@ -1,0 +1,52 @@
+train(101, express, pune, mumbai).
+train(102, intercity, pune, nagpur).
+train(103, superfast, mumbai, delhi).
+train(104, passenger, pune, nashik).
+train(105, duronto, delhi, kolkata).
+
+passenger(1, ayush).
+passenger(2, rahul).
+passenger(3, sneha).
+passenger(4, pratik).
+passenger(5, pooja).
+
+reservation(1, 101).
+reservation(2, 102).
+reservation(3, 103).
+reservation(5, 105).
+
+fare(101, 500).
+fare(102, 700).
+fare(103, 1200).
+fare(104, 300).
+fare(105, 1500).
+
+booked(PassengerName, TrainName) :-
+    passenger(PID, PassengerName),
+    reservation(PID, TrainID),
+    train(TrainID, TrainName, _, _).
+
+route(TrainName, Source, Destination) :-
+    train(_, TrainName, Source, Destination).
+
+has_reservation(PassengerName) :-
+    passenger(PID, PassengerName),
+    reservation(PID, _).
+
+ticket_fare(PassengerName, Fare) :-
+    passenger(PID, PassengerName),
+    reservation(PID, TrainID),
+    fare(TrainID, Fare).
+
+available_train(Source, TrainName) :-
+    train(_, TrainName, Source, _).
+
+arriving_train(Destination, TrainName) :-
+    train(_, TrainName, _, Destination).
+
+passenger_train(PassengerName, TrainName) :-
+    booked(PassengerName, TrainName).
+
+unreserved(PassengerName) :-
+    passenger(_, PassengerName),
+    \+ has_reservation(PassengerName).
